@@ -57,6 +57,7 @@ QUICK_MOBAXTERM_GUIDE.txt
 QUICK_REFERENCE.txt
 TRAINING_WITH_VIDEO.md
 check_*.py
+_check_*.py
 launch_*.py
 fetch_remote*.py
 patch_*.py
@@ -85,6 +86,12 @@ k_th_largest_array.py
 2Dmatrix_finding.py
 search_insert.py
 climb_stairs.py
+
+# Generated root-level rollout frames
+*_f[0-9][0-9][0-9].png
+standing_frame_*.png
+tmp_*_f*.png
+walk_kp*_f*.png
 
 # Misc
 nul
