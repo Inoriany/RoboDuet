@@ -1,6 +1,12 @@
 import paramiko
+import os
 import time
 
+
+HOST = os.environ.get("ROBODUET_SSH_HOST")
+PORT = int(os.environ.get("ROBODUET_SSH_PORT", "22"))
+USER = os.environ.get("ROBODUET_SSH_USER", "root")
+PASS = os.environ.get("ROBODUET_SSH_PASSWORD")
 
 RUN_DIR = "/root/RoboDuet/runs/b2z1_grasp_real_phase1_balanced/dummy-pqxq6mbs_seed6135"
 ARM_CKPT = RUN_DIR + "/checkpoints_arm/ac_weights_last_arm.pt"
@@ -10,7 +16,7 @@ DOG_CKPT = RUN_DIR + "/checkpoints_dog/ac_weights_last_dog.pt"
 def main():
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect("jq1.9gpu.com", port=11360, username="root", password="QBCoP-ep", timeout=40)
+    ssh.connect(HOST, port=PORT, username=USER, password=PASS, timeout=40)
 
     sftp = ssh.open_sftp()
     sftp.put(r"D:\CUHK\AIMS_5790\auto_train_grasp_real.py", "/root/RoboDuet/auto_train_grasp_real.py")

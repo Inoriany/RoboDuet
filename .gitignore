@@ -1,26 +1,29 @@
-# ── Large training logs (exceed GitHub 100 MB limit) ──────────────────────────
+# Large training logs (exceed GitHub 100 MB limit)
 server_audit/training_v1_log.txt
 server_audit/grasp_stand_log.txt
+*.log.txt
 
-# ── Video files ────────────────────────────────────────────────────────────────
+# Video and generated media
 *.mp4
 *.gif
+*.avi
+*.mov
 
-# ── Presentation binaries ──────────────────────────────────────────────────────
+# Presentation / compiled binaries
 *.pptx
 *.pdf
 
-# ── Office / personal documents ───────────────────────────────────────────────
+# Office / personal documents
 *.docx
 *.xlsx
 *.zip
 
-# ── Python cache ──────────────────────────────────────────────────────────────
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 
-# ── LaTeX build artifacts ─────────────────────────────────────────────────────
+# LaTeX build artifacts
 *.aux
 *.log
 *.out
@@ -36,5 +39,52 @@ __pycache__/
 *.lot
 *.lof
 
-# ── Misc ──────────────────────────────────────────────────────────────────────
+# Generated frame/contact-sheet directories
+presentation/_slide_images/
+presentation/_audit_frames/
+video_contact_sheet/
+tmp_*/
+tmp_v*/
+tmp_video_check*/
+sweep_stand/
+*_check/
+
+# Local / secret-bearing helper scripts from development sessions
+BACKGROUND_TRAINING_GUIDE.md
+BACKGROUND_TRAINING_QUICK.txt
+MOBAXTERM_VIDEO_GUIDE.md
+QUICK_MOBAXTERM_GUIDE.txt
+QUICK_REFERENCE.txt
+TRAINING_WITH_VIDEO.md
+check_*.py
+launch_*.py
+fetch_remote*.py
+patch_*.py
+poll_log.py
+ssh_search.py
+tmp_*.py
+upload_and_run.py
+wait_and_fetch_demo.py
+generate_simulation_video.py
+generate_video_simple.py
+
+# Personal/course artifacts not part of the public RoboDuet repository
+cv*.tex
+CUHK_project_report_template*/
+report_template/
+realrobot_proposal/
+PhD_Briefing_*.txt
+Pre-requisite.*
+Introduction.txt
+main.tex
+Untitled-1.py
+*sort.py
+sum_two_numbers.py
+max_profit.py
+k_th_largest_array.py
+2Dmatrix_finding.py
+search_insert.py
+climb_stairs.py
+
+# Misc
 nul

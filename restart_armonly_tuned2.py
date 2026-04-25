@@ -1,11 +1,12 @@
 import paramiko
+import os
 import time
 
 
-HOST = "jq1.9gpu.com"
-PORT = 11360
-USER = "root"
-PASS = "QBCoP-ep"
+HOST = os.environ.get("ROBODUET_SSH_HOST")
+PORT = int(os.environ.get("ROBODUET_SSH_PORT", "22"))
+USER = os.environ.get("ROBODUET_SSH_USER", "root")
+PASS = os.environ.get("ROBODUET_SSH_PASSWORD")
 
 RESUME_RUN = "/root/RoboDuet/runs/b2z1_grasp_armonly_overnight/dummy-waz6pb1q_seed6989/checkpoints_arm/ac_weights_last_arm.pt"
 

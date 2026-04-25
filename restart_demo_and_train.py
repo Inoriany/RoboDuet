@@ -1,11 +1,12 @@
 import paramiko
+import os
 import time
 
 
-HOST = "jq1.9gpu.com"
-PORT = 11360
-USER = "root"
-PASS = "QBCoP-ep"
+HOST = os.environ.get("ROBODUET_SSH_HOST")
+PORT = int(os.environ.get("ROBODUET_SSH_PORT", "22"))
+USER = os.environ.get("ROBODUET_SSH_USER", "root")
+PASS = os.environ.get("ROBODUET_SSH_PASSWORD")
 
 DEMO_REMOTE = "/root/RoboDuet/gen_grasp_fixedbase_success.py"
 TRAIN_REMOTE = "/root/RoboDuet/auto_train_grasp_armonly.py"

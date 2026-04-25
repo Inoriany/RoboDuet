@@ -1,11 +1,18 @@
 import paramiko
+import os
 import time
+
+
+HOST = os.environ.get("ROBODUET_SSH_HOST")
+PORT = int(os.environ.get("ROBODUET_SSH_PORT", "22"))
+USER = os.environ.get("ROBODUET_SSH_USER", "root")
+PASS = os.environ.get("ROBODUET_SSH_PASSWORD")
 
 
 def main():
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect("jq1.9gpu.com", port=11360, username="root", password="QBCoP-ep", timeout=40)
+    ssh.connect(HOST, port=PORT, username=USER, password=PASS, timeout=40)
 
     sftp = ssh.open_sftp()
     for local, remote in [

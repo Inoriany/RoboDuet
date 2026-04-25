@@ -142,7 +142,7 @@ def main():
                     print(f"     Path: {latest_video}")
                     print(f"     Size: {size_mb:.1f} MB")
                     print(f"\nTo download this video:")
-                    print(f"  scp -P 11092 root@ry3.9gpu.com:{latest_video} .")
+                    print(f"  scp -P <port> <user>@<host>:{latest_video} .")
                     return True
         
         print(f"\n[INFO] Video should be saved in IsaacGym default directory")
