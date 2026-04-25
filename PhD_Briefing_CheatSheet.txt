@@ -1,0 +1,134 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                     PRESENTATION CHEAT SHEET (5min)                       ║
+║                                                                           ║
+║  Print this + keep on podium. Quick glance during transition.             ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+
+SLIDE 1 [30sec]: TITLE
+──────────────────────
+Opening:
+  "Thank you for time. Brief on thesis progress.
+   B2Z1 grasping: GraspNet + RL."
+  
+  [Pause 2 seconds, make eye contact]
+
+
+SLIDE 2 [1min]: PROBLEM
+───────────────────────
+Key points (don't read, just reference):
+  - 18 DOF = complex control
+  - Pure RL = 45% (bad)
+  - Why? Sample inefficiency
+  - Question: How to learn efficiently?
+
+Tone: Serious, acknowledge difficulty
+
+
+SLIDE 3 [1min 30sec]: SOLUTION ★ MOST IMPORTANT
+────────────────────────────────────────────────
+Component 1:
+  "GraspNet (CVPR 2020)"
+  - Pre-trained CNN
+  - 80-85% accuracy
+  - 50 candidates
+  - FROZEN (no retraining)
+
+Component 2:
+  "RL execution (PPO)"
+  - Learn how to execute
+  - 10K iterations
+  - TRAINABLE
+
+Result:
+  75-80% success → +30pp improvement
+
+
+SLIDE 4 [1min 30sec]: TIMELINE
+───────────────────────────────
+Phase 1: DONE ✓
+  - 50K iterations complete
+  - Model saved
+
+Phase 2: STARTING
+  Week 1: Integration (7 days)
+  Week 2-3: Training (10K iters)
+  Week 4: Paper (8-10 pages)
+
+Bottom line: 4 weeks total
+
+
+SLIDE 5 [1min]: SUMMARY
+───────────────────────
+Why matters:
+  1. First multi-component on B2Z1
+  2. Leverages proven CVPR 2020 baseline
+  3. Realistic 4-week timeline
+
+Milestones:
+  - Week 1: Smoke test OK
+  - Week 2: Success examples (video)
+  - Week 4: Paper done
+
+Closing:
+  "Questions?"
+
+
+═════════════════════════════════════════════════════════════════════════════
+
+
+EMERGENCY RESPONSES (if asked during presentation)
+──────────────────────────────────────────────────
+
+Q: "Why 75-80%?"
+A: "GraspNet 80-85%, RL adds 5-10% → conservative estimate"
+
+Q: "Why GraspNet?"
+A: "CVPR 2020, open-source, no licensing. Realistic for 4-week sprint."
+
+Q: "Real robot?"
+A: "Simulation validation for thesis. Real robot = future work."
+
+Q: "4 weeks realistic?"
+A: "Phase 1 done. Day-by-day checklist prepared. Main risk = bugs."
+   [Confidence: Speak clearly]
+
+
+═════════════════════════════════════════════════════════════════════════════
+
+
+TIME TRACKER (keep an eye on your watch)
+─────────────────────────────────────────
+
+00:00 - Start: Open slide, thank advisor
+00:30 - Click to SLIDE 2 (Problem)
+01:30 - Click to SLIDE 3 (Solution) ← Spend time here
+03:00 - Click to SLIDE 4 (Timeline)
+04:30 - Click to SLIDE 5 (Summary)
+05:00 - "Questions?"
+
+If you're ahead:
+  → Slow down, let advisor read slides
+  → Add more detail to Solution
+  
+If you're behind:
+  → Skip some sub-bullets
+  → Go straight to bottom line
+
+
+═════════════════════════════════════════════════════════════════════════════
+
+
+BODY LANGUAGE REMINDERS
+──────────────────────
+
+• SMILE when opening and closing
+• Make eye contact after each sentence
+• Hands OUT of pockets
+• Stand still (don't pace)
+• Pause after showing new slide (let them read)
+• Speak SLOWLY (you'll naturally speed up)
+• Emphasis: "75 to 80 percent" (use hands)
+
+
+═════════════════════════════════════════════════════════════════════════════

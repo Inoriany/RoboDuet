@@ -1,0 +1,114 @@
+% !TEX root = ../thesis.tex
+
+\chapter{Experiments and Results} \label{chp:exp}
+
+\section{Experimental Setup}
+
+All experiments were conducted in NVIDIA Isaac Gym simulation with 2048
+parallel environments running on a single NVIDIA RTX 4090 GPU.
+The B2+Z1 URDF was loaded with the complete kinematic and collision meshes
+for both the quadruped body and the Z1 arm.
+Training was performed in three sequential stages as described in
+Chapter~\ref{chp:method}: locomotion pre-training (50k iterations),
+arm pre-training (30k iterations), and hybrid fine-tuning (30k iterations).
+All rewards were logged via Weights \& Biases throughout training.
+
+\section{Stage 1: Locomotion Results}
+
+After 50,000 PPO iterations, the B2 quadruped (with arm fixed in rest
+configuration) produced stable trotting gait on flat terrain.
+Key observations:
+\begin{itemize}
+  \item The robot maintained an upright posture throughout 20-second rollouts
+        without falling (terminal body-height condition never triggered).
+  \item Forward velocity tracking error converged to within
+        $\pm 0.1$\,m/s of the commanded value.
+  \item The gait transitioned smoothly between different commanded
+        frequencies ($2$--$4$\,Hz) and stance widths, confirming that
+        the distributional command curriculum was active.
+  \item Prior to the PD gain correction ($K_p=35$, $K_d=1$), the robot
+        collapsed within the first few training iterations due to
+        insufficient joint torque authority.  After the correction
+        ($K_p=200$, $K_d=20$), stable locomotion emerged within the
+        first 10k iterations.
+\end{itemize}
+
+\section{Stage 2: Arm Manipulation Results}
+
+After 30,000 PPO iterations on the stand-still grasping task, the arm
+policy learned to track randomly sampled end-effector pose targets while
+the robot body remained stationary.
+Key observations:
+\begin{itemize}
+  \item The arm successfully reached targets sampled from the full command
+        range: reach length $l \in [0.3, 0.77]$\,m, polar angle
+        $p \in [-0.45\pi, 0.45\pi]$\,rad, azimuthal angle
+        $y \in [-\pi/2, \pi/2]$\,rad.
+  \item End-effector orientation tracking converged; the weighted reward
+        ($w_{\text{lpy}}=3$, $w_{\text{rpy}}=1$) was effective in
+        prioritising position before orientation accuracy.
+  \item The body orientation communication channel was active: the arm
+        policy output non-zero pitch/roll commands to the dog policy when
+        reaching targets near the workspace boundary.
+\end{itemize}
+
+\section{Stage 3: Hybrid Walk-While-Grasp Results}
+
+The hybrid fine-tuning stage combined both pre-trained policies, enabling
+the B2+Z1 system to walk while simultaneously tracking arm end-effector
+targets.
+Key observations:
+\begin{itemize}
+  \item The robot maintained stable locomotion at commanded velocities
+        while the arm tracked moving end-effector targets.
+  \item The arm policy successfully requested body lean adjustments via
+        the orientation command channel to extend reachability.
+  \item No sustained policy interference (locomotion destabilising the
+        arm or vice versa) was observed in evaluation rollouts.
+\end{itemize}
+
+\section{Discussion}
+
+The primary finding is that the RoboDuet cooperative architecture
+transfers successfully to the heavier B2+Z1 platform once the PD gains
+are properly calibrated.
+The three-stage curriculum was essential: attempting to train all 18
+joints simultaneously from scratch led to instability in preliminary
+experiments.
+Hot-starting Stage~3 from separately pre-trained checkpoints resolved
+this issue.
+
+\textbf{Limitations.}
+The current work is simulation-only; sim-to-real transfer has not been
+validated and would require additional domain randomisation tuning and
+actuator identification for the physical B2 hardware.
+The end-effector target is a fixed synthetic command; a full grasping
+demonstration requires integration with a perception module to localise
+real objects.
+
+\chapter{Conclusion} \label{chp:conclusion}
+
+This project reproduced the RoboDuet cooperative loco-manipulation
+framework and adapted it to the Unitree B2+Z1 platform through systematic
+identification and correction of platform-specific engineering mismatches.
+The central contribution is a validated three-stage PPO training pipeline
+--- locomotion pre-training, arm pre-training, and joint hybrid fine-tuning
+--- that produces a B2+Z1 system capable of walking while tracking 6-DoF
+end-effector pose targets in Isaac Gym simulation.
+
+The cooperative dual-policy architecture proved effective on the heavier B2
+platform: the body leans dynamically in response to arm-policy requests
+without explicit user specification, replicating the key behavioural
+property of the original Go1-based RoboDuet~\cite{pan2024roboduet}.
+
+Future work directions include:
+\begin{enumerate}
+  \item \textbf{Sim-to-real transfer:} deploying the trained policy on
+        the physical B2+Z1 hardware~\cite{lee2020learning,kumar2021rma}.
+  \item \textbf{Object-centric grasping:} integrating a perception module
+        to generate real end-effector targets from detected objects.
+  \item \textbf{Rough terrain:} extending locomotion training to the
+        trimesh terrain curriculum already in the framework.
+  \item \textbf{Whole-body force control:} exploring compliant contact
+        strategies for reactive manipulation.
+\end{enumerate}

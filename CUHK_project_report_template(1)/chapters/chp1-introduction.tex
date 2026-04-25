@@ -1,0 +1,89 @@
+% !TEX root = ../thesis.tex
+
+\chapter{Introduction} \label{chp:intro}
+
+\section{Background and Motivation}
+
+Legged robots have demonstrated remarkable progress in locomotion over the past decade,
+achieving robust walking, running, and stair-climbing on real-world terrain through
+model-based control and, more recently, reinforcement learning (RL)~\cite{lee2020learning,kumar2021rma}.
+However, locomotion alone severely limits the robot's practical utility.
+Many real-world deployment scenarios---warehouse logistics, search-and-rescue, and
+domestic assistance---require a robot to not merely navigate its environment but also
+to interact with objects within it.
+Attaching a robotic arm to a legged platform gives rise to the problem of
+\emph{legged loco-manipulation}: the robot must simultaneously maintain stable
+locomotion and execute purposeful manipulation, two tasks that impose competing
+demands on the body posture, base dynamics, and joint torques.
+
+A fundamental prerequisite for effective arm-based grasping on a mobile legged
+platform is a stable, compliant body base.
+The robotic arm is mounted on the torso of the quadruped; any unexpected roll,
+pitch, or yaw disturbance of the body directly propagates through the mechanical
+linkage into end-effector positioning error.
+Consequently, before the arm can reliably reach a target, the locomotion policy
+must (i)~maintain a near-level body orientation, (ii)~reject perturbations rapidly,
+and (iii)~respond to body-pose commands issued by the arm policy so that the
+entire body can lean into difficult reach envelopes.
+This tight coupling between locomotion and manipulation motivates a cooperative,
+multi-policy control architecture in which a \emph{locomotion policy} and an
+\emph{arm policy} are trained to communicate and co-adapt.
+
+This project reproduces and extends the \emph{RoboDuet} framework proposed by
+Pan~et~al.~\cite{pan2024roboduet}, which introduced exactly such a cooperative
+whole-body controller for legged loco-manipulation.
+The original work demonstrated the approach on the Unitree Go1 quadruped body
+paired with the Unitree Z1 arm.
+Our contribution is the systematic adaptation of this framework to the heavier
+Unitree~\textbf{B2} quadruped equipped with the same Z1 arm, trained entirely
+in the NVIDIA Isaac Gym~\cite{makoviychuk2021isaac} physics simulator using
+Proximal Policy Optimisation~(PPO)~\cite{schulman2017proximal}.
+In doing so, we identify and resolve the key engineering challenges that arise
+when porting a locomotion-oriented RL framework from a lighter platform (Go1,
+$\approx\!12$\,kg) to a significantly heavier one (B2, $\approx\!52$\,kg).
+
+\section{Problem Statement}
+
+Given the B2+Z1 whole-body system, the goal is to train a control policy that
+enables the quadruped to walk on flat terrain while simultaneously tracking
+6-DoF end-effector pose targets with the Z1 arm.
+More precisely, the desired behaviour is:
+\begin{enumerate}
+  \item \textbf{Stable locomotion:} The quadruped follows commanded forward
+        velocity, lateral velocity, and yaw-rate targets without falling or
+        exhibiting excessive oscillation.
+  \item \textbf{End-effector pose tracking:} The Z1 arm tracks randomly sampled
+        Cartesian positions (reach length $l$, polar angle $p$, azimuthal angle $y$)
+        and end-effector orientations (roll, pitch, yaw in the end-effector frame).
+  \item \textbf{Whole-body coordination:} The arm policy communicates desired body
+        roll and pitch adjustments to the locomotion policy, allowing the torso to
+        lean in order to extend the arm's reachable workspace.
+\end{enumerate}
+
+\section{Contributions}
+
+The main contributions of this work are as follows:
+\begin{enumerate}
+  \item We identify and correct a critical PD-gain mismatch that prevented stable
+        B2 locomotion when directly transplanting the Go1-tuned framework
+        (\S\ref{sec:framework_adaptation}).
+  \item We implement and validate a three-stage, curriculum-based RL training
+        pipeline specifically designed for the B2+Z1 platform: (1)~locomotion
+        pre-training, (2)~manipulation pre-training with a stationary body, and
+        (3)~joint fine-tuning for walk-while-grasp behaviour
+        (\S\ref{sec:training_pipeline}).
+  \item We demonstrate successful whole-body loco-manipulation of the B2+Z1
+        system in Isaac Gym simulation, with the quadruped walking while
+        simultaneously tracking arm end-effector targets (\S\ref{chp:exp}).
+\end{enumerate}
+
+\section{Thesis Structure}
+
+The remainder of this report is organised as follows.
+Chapter~\ref{chp:relwork} reviews related work on legged locomotion, arm
+manipulation, and cooperative loco-manipulation.
+Chapter~\ref{chp:method} describes the B2+Z1 platform, the adapted RoboDuet
+framework, and the full RL training pipeline including policy architectures,
+observation and action spaces, and reward design.
+Chapter~\ref{chp:exp} presents experimental results from Isaac Gym simulation.
+Chapter~\ref{chp:conclusion} concludes and discusses future work.

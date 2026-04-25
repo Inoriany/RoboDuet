@@ -1,0 +1,40 @@
+# ── Large training logs (exceed GitHub 100 MB limit) ──────────────────────────
+server_audit/training_v1_log.txt
+server_audit/grasp_stand_log.txt
+
+# ── Video files ────────────────────────────────────────────────────────────────
+*.mp4
+*.gif
+
+# ── Presentation binaries ──────────────────────────────────────────────────────
+*.pptx
+*.pdf
+
+# ── Office / personal documents ───────────────────────────────────────────────
+*.docx
+*.xlsx
+*.zip
+
+# ── Python cache ──────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+
+# ── LaTeX build artifacts ─────────────────────────────────────────────────────
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.nav
+*.snm
+*.bbl
+*.blg
+*.brf
+*.lot
+*.lof
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+nul

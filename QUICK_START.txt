@@ -1,0 +1,82 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║                         5 MIN QUICK START                             ║
+║                    PhD Briefing Preparation                           ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+IN NEXT 30 MINUTES:
+
+1. OPEN PowerPoint
+   File: PhD_Briefing_B2Z1_Grasping.pptx
+   Action: Click through all 5 slides
+   Time: 2 minutes
+
+2. PRINT Cheat Sheet  
+   File: PhD_Briefing_CheatSheet.txt
+   Action: Print 2 pages, fold it
+   Time: 2 minutes
+
+3. READ Script
+   File: PhD_Briefing_Script.txt
+   Action: Read once out loud
+   Time: 8 minutes
+
+4. PRACTICE
+   Action: Speak through all 5 minutes once
+   Time: 5-7 minutes
+
+5. BREATHE
+   Action: Relax, you're prepared!
+   Time: Remaining minutes
+
+
+YOUR 5-MINUTE FLOW:
+
+[0:00] Thank you. B2Z1 grasping: GraspNet + RL.
+[0:30] PROBLEM: 18 DOF, pure RL = 45%
+[1:30] SOLUTION: GraspNet (frozen) + RL (trainable) = 75-80%
+[3:00] TIMELINE: Week 1 integration, 2-3 training, 4 paper
+[4:30] SUMMARY: Why it matters + next steps
+[5:00] Questions?
+
+
+KEY NUMBERS (memorize these):
+
+18 DOF       → Why hard (control space)
+45%          → Baseline (RL-only)  
+80-85%       → GraspNet accuracy
+75-80%       → Our target result
+4 weeks      → Total timeline
+10K iters    → RL training iterations
+
+
+IF ADVISOR ASKS:
+
+"Why 75-80%?"
+→ GraspNet 80-85%, RL adds 5-10%
+
+"Why GraspNet?"  
+→ CVPR 2020, open-source, no licensing
+
+"4 weeks realistic?"
+→ Phase 1 done, framework ready, checklist prepared
+
+
+DURING PRESENTATION:
+
+✓ Speak slowly
+✓ Eye contact
+✓ Pause after slides
+✓ Smile
+✓ Use hand gestures
+
+
+AFTER PRESENTATION:
+
+→ Note any feedback from advisor
+→ If "go ahead" → Start Phase 2 immediately
+→ If "suggestions" → Update plan, then proceed
+→ Either way: Phase 2 starts within 1-2 days
+
+
+YOU'VE GOT THIS! 🚀
+

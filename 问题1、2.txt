@@ -1,0 +1,29 @@
+Question 1: 
+计算机视觉，机器视觉，机器学习，深度学习，强化学习，
+
+编程类的，计算机模型等的技能
+
+Skills in Computer Vision, Machine Vision, Machine Learning, Deep Learning, Reinforcement Learing 
+And a strong skill in Python Programming including the usage of various of Python Libraries such as Pandas, Matplotlib, Numpy, PyTorch etc. Have experienced R and Java in the University. 
+Technical Skills
+• Programming Languages: Python, Java, R
+• Front-end Development: CSS, HTML
+• Machine Learning: PyTorch, scikit-learn, TensorFlow
+• Data Processing: Pandas, NumPy
+• Tools and Platforms: Git, Google Colab, Jupyter Notebook
+
+Question 2:
+Relevant Experiences I have related to question 1:
+
+For Computer Vision Part, I did my Robotics Project under the supervision of Dr Philip Zhao in the University of Manchester. This project presents the Fire Detection Package, an autonomous robotic framework designed to enhance fire hazard detection and response in dynamic, multihazard environments. Integrating state-of-the-art perception, mapping and navigation technologies, the system combines YOLOv5 deep learning models for real-time fire detection with thermal and LiDAR sensing, fused through a Simultaneous Localization and Mapping (SLAM) pipeline implemented in ROS Noetic. The system autonomously identifies fire sources, generates adaptive maps, and navigates towards or away from hazards without human intervention, offering a scalable solution for search-and-rescue missions and industrial safety monitoring.
+The evaluation strategy combines quantitative performance metrics (precision, recall, path deviation) with qualitative system analysis, providing a rigorous foundation for future real-world deployment.
+By synthesizing multimodal sensing, deep learning, and adaptive robotics, this work advances the field of intelligent disaster robotics, offering both a proof-of-concept system and a modular research platform extendable to broader emergency contexts.
+
+For the usage of Python, I have the experience in participating a project related to diffusion models, naming the Image Forgery Localization Using Diffusion Models between 07/2024 – 08/2024 under Professor Jiangqun Ni in Sun Yat-sen University, Guangdong. In this project, we developed deep learning models for high-precision image forgery detection, focusing on pixel-level accuracy using PyTorch and other Python libraries. we also employed torch.randn() for Gaussian noise initialization, a critical step in diffusion-based image processing. After that, we constructed a U-Net with PyTorch, incorporating convolutional layers, ReLU activations, and pooling for feature extraction and noise reduction, optimized denoising tasks using parallel GPU processing with PyTorch tensor operations, achieving high computational efficiency.
+
+I also used Python Libraries for data visualiisation during my expereince in Tiktok Mall project in ByteDance. I Conducted business and market research on TikTok Shop Mall and mobile phone markets, delivering insights for competitor analysis and strategic recommendations. I also designed visualizations for TikTok Shopping Mall's annual statistical report, identifying optimization solutions for improving Tiktok Mall's profit margin via trend analysis and statistical tests.
+
+For the experience in using the neural networks before, I participated in GreatUniHack 2023 Programming Contest from 09/2023 – 11/2023 in Manchester, where I obtained Team Runners-up award in a team of 4. I developed an AI web application to detect deforestation in any specific area
+over 20 years’ time. For my personal part of work , I dealt with Image Pre-processing, cleaned the dataset of original images and created the segmentation masks. I also carried out image normalisation for building the CNN model, setting up the ngrok server on Google Colab space for project deployment.
+
+For the robotics project, I participant in the Robotics Society of the University of Manchester, where I mastered my programming for robotic arms and vehicles. I collaborated in a team of four, designed and built a robot for echolocation and obstacle detection using Arduino, Ultrasonic sensors, and DC motors etc. We also positioned and optimized sensors for accurate functionality, Integrated hardware components with Arduino to ensure seamless operation.

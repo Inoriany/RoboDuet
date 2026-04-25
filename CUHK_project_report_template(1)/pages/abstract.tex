@@ -1,0 +1,35 @@
+% !TEX root = ../thesis.tex
+
+Legged robots are increasingly deployed in unstructured environments where
+the ability to \emph{manipulate} objects is as important as the ability to
+\emph{locomote}.
+This project addresses the challenge of whole-body loco-manipulation by
+reproducing and adapting the RoboDuet cooperative control framework
+(Pan et al., IEEE RA-L 2025) to the Unitree B2 quadruped equipped with a
+Unitree Z1 robotic arm --- a platform four times heavier than the Go1
+for which the original framework was designed.
+
+We identify a critical PD-gain mismatch as the principal obstacle to
+direct framework transfer and resolve it by increasing the leg joint
+stiffness from $K_p = 35$ to $K_p = 200$\,N\,m/rad and the damping
+from $K_d = 1$ to $K_d = 20$\,N\,m\,s/rad.
+Building on this corrected baseline, we implement a three-stage
+reinforcement-learning curriculum using Proximal Policy Optimisation
+in the Isaac Gym simulator with 2048 parallel environments:
+(1)~a locomotion pre-training stage in which the dog policy learns
+stable trotting on flat terrain with the arm fixed;
+(2)~an arm pre-training stage in which the arm policy learns 6-DoF
+end-effector pose tracking with the body standing still; and
+(3)~a hybrid fine-tuning stage that hot-starts from both pre-trained
+policies and trains the cooperative walk-while-grasp behaviour.
+
+The cooperative architecture employs separate actor-critic networks for
+the locomotion and arm policies.
+The arm policy outputs both six arm joint targets and a body
+orientation command (pitch, roll) that is injected into the locomotion
+policy's observation vector, enabling the body to lean dynamically and
+expand the arm's reachable workspace.
+Isaac Gym simulation results demonstrate that the B2+Z1 system can
+sustain stable locomotion at commanded velocities while simultaneously
+tracking arm end-effector targets, validating the adapted framework
+on the heavier platform.

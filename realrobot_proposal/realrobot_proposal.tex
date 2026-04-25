@@ -1,0 +1,78 @@
+% !TEX TS-program = pdflatex
+% 编译： pdflatex realrobot_proposal.tex
+\documentclass[11pt,a4paper]{ctexart}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+
+\hypersetup{colorlinks=true, urlcolor=blue!60!black, linkcolor=black}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\setlist[itemize]{leftmargin=1.4em, itemsep=2pt, topsep=2pt}
+\setlist[enumerate]{leftmargin=1.6em, itemsep=2pt, topsep=2pt}
+
+\title{\vspace{-1.2cm}\bfseries 关于 B2 + Z1 真机测试的初步汇报}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.6cm}
+
+\begin{flushleft}
+\textbf{致：} 陈翡 教授 \\
+\textbf{自：} 赵宇潇（AIMS 5790）\\
+\textbf{日期：} 2026 年 4 月 \\
+\textbf{议题：} 希望与您当面讨论一次 B2 四足 + Z1 机械臂的真机测试安排
+\end{flushleft}
+
+\section{背景}
+
+本学期的课程项目以 \textbf{Unitree B2（四足）+ Z1（6-DoF 机械臂）} 的整机系统为对象，目标是让这套平台具备“先站稳、再用手臂完成桌面级抓取”的基础能力，为后续的 loco-manipulation 研究打底。
+
+目前所有工作都在 \textbf{Isaac Gym / Isaac Lab 仿真}中完成，尚未接触真机。本次想向您汇报仿真阶段的进展与局限，并就\textbf{是否、以及何时可以进入真机验证}征求您的意见。
+
+\section{仿真阶段现状}
+
+到目前为止在仿真里已经跑通、并用于答辩演示的三件事：
+
+\begin{enumerate}
+  \item \textbf{固定基座下的 Z1 手臂到达任务。} 机械臂在固定基座上，使用 PPO 训练的策略可以稳定地把末端移动到指定位姿；主要用来验证观测、动作、奖励接口是否正确。
+  \item \textbf{B2 本体的站立保持（站立 policy）。} 用较高的关节 PD（$k_p=200$, $k_d=20$）训练了一个仅做“保持站立”的 policy，当前片段可在默认姿态下持续站立约 20 秒不倒，作为后续所有运动/操作任务的前置条件。
+  \item \textbf{B2 + Z1 整机的桌面抓取原型。} 在 B2 站立的前提下，让 Z1 完成对固定位置物体的抓取动作。\textbf{当前仅在仿真中的受限场景下成功}，尚未引入扰动、未做 domain randomization、也没有视觉闭环。
+\end{enumerate}
+
+\section{仿真阶段的局限（也是想上真机的原因）}
+
+诚实地讲，仿真做到这一步有几个问题自己回答不了，必须靠真机才能判断：
+
+\begin{itemize}
+  \item \textbf{站立 policy 的真机可迁移性未知}：$k_p/k_d$、观测噪声、接触模型和真机差距多大，目前只能猜。
+  \item \textbf{Z1 手臂在真机上的标定与到达精度未验证}：仿真里“到达”只是位姿误差达标，真机上是否会因标定/力矩限制打折扣，不清楚。
+  \item \textbf{站立 + 手臂伸出时的整机稳定性没有真实数据}：手臂摆动会显著改变质心，仿真里看起来没事，不代表真机上不会前倾或打滑。
+  \item \textbf{尚未做任何 sim-to-real 工作}：没有 domain randomization、没有真机数据回灌、没有策略部署管线。
+\end{itemize}
+
+\section{本次想请您定夺的事}
+
+基于上述现状，我希望能和您当面讨论以下问题，并在您认可后再推进：
+
+\begin{enumerate}
+  \item \textbf{是否同意进入真机阶段}，以及进入的时机（本学期内 / 下学期 / 答辩结束之后）。
+  \item \textbf{真机 B2 + Z1 目前在实验室的可用状态}——我还没见过真机，想先了解其当前可做什么（仅通电自检 / 可挂带下站立 / 可小范围动作），以便据此规划第一步。
+  \item \textbf{您希望我用哪种方式把现有 sim 工作往真机上搬}：先只做脚本化动作熟悉硬件，还是直接尝试部署 sim policy，或走 teleop / 示教路线。
+\end{enumerate}
+
+在您对上述三点有倾向性意见之后，我会据此起草一份分阶段的验证路线图（含安全措施、资源需求、成功/中止条件）再次向您汇报。
+
+\vspace{0.6em}
+\hrule
+\vspace{0.4em}
+\small\textit{附：答辩演示视频（固定基座手臂到达、B2 站立、B2+Z1 抓取）与完整讲稿已准备就绪，可随时提供。}
+
+\end{document}

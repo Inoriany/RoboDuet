@@ -1,0 +1,139 @@
+# MobaXterm快速指南 - B2Z1 Simulation视频生成
+
+## 三步生成视频
+
+### 第1步: 在MobaXterm中连接
+```bash
+ssh root@ry3.9gpu.com -p 11092
+# 输入密码: WftpaCCs
+```
+
+### 第2步: 运行视频生成脚本
+```bash
+cd /root/RoboDuet
+python3 gen_video_v2.py
+```
+
+**等待完成** (约5-10分钟)
+
+### 第3步: 下载视频
+在MobaXterm SFTP或用scp命令下载到本地
+
+---
+
+## 完整命令(一行)
+
+```bash
+ssh root@ry3.9gpu.com -p 11092 -t "cd /root/RoboDuet && python3 gen_video_v2.py"
+```
+
+---
+
+## 脚本位置
+
+已上传两个版本到远程:
+- `/root/RoboDuet/gen_video.py`    (完整版 - 更多功能)
+- `/root/RoboDuet/gen_video_v2.py` (简化版 - 推荐用)
+
+---
+
+## 输出说明
+
+脚本会输出:
+```
+========================================================================
+B2Z1 SIMULATION VIDEO GENERATOR - IsaacGym Rendering
+========================================================================
+
+[1/5] Imports successful
+      PyTorch: 2.0.1+cu118
+      CUDA available: True
+
+[2/5] Configuring B2Z1 environment...
+      Creating environment...
+
+[3/5] Loading trained policy...
+      Found model: ac_weights_020800.pt
+
+[4/5] Running B2Z1 simulation...
+      Progress: 0/600 (0%)
+      Progress: 100/600 (16%)
+      ...
+      Progress: 600/600 (100%)
+
+[5/5] Locating video output...
+      [OK] Video saved!
+      Path: /root/.local/share/isaacgym/b2z1_video_xxx.mp4
+      Size: 45.3 MB
+```
+
+---
+
+## 下载视频方法
+
+### 方法A: MobaXterm SFTP (推荐)
+1. 在MobaXterm中按 `Ctrl+S` 打开SFTP
+2. 导航到 `/root/.local/share/isaacgym/` 或脚本输出的路径
+3. 找到 `.mp4` 文件
+4. 拖放到本地Windows文件夹
+
+### 方法B: scp命令 (在Windows CMD/PowerShell中)
+```bash
+scp -P 11092 root@ry3.9gpu.com:/root/.local/share/isaacgym/*.mp4 .
+```
+
+### 方法C: MobaXterm Session中用scp
+```bash
+scp -P 11092 root@ry3.9gpu.com:/root/.local/share/isaacgym/*.mp4 /path/to/windows/folder
+```
+
+---
+
+## 常见问题
+
+**Q: 脚本找不到模型?**
+```bash
+# 检查模型存在
+find /root/RoboDuet/runs -name "ac_weights_*.pt" -type f | head -3
+```
+
+**Q: 生成速度很慢?**
+```bash
+# 这是正常的 - IsaacGym rendering很耗时
+# 600步 = 约10秒视频 = 5-10分钟生成时间
+```
+
+**Q: 如何生成更短的视频?**
+编辑 `gen_video_v2.py` 第101行:
+```python
+for step in range(600):  # 改为 range(300) = 5秒
+```
+
+---
+
+## 参考: 完整流程
+
+```
+MobaXterm SSH Session
+│
+├─ ssh root@ry3.9gpu.com -p 11092
+│
+├─ cd /root/RoboDuet
+│
+├─ python3 gen_video_v2.py
+│  ├─ [加载IsaacGym]
+│  ├─ [配置B2Z1]
+│  ├─ [查找最新模型]
+│  ├─ [加载策略]
+│  ├─ [运行600步模拟] ← ⏳ 等待中...
+│  └─ [保存视频]
+│
+└─ 下载MP4到本地 (SFTP或scp)
+   │
+   └─ 插入PPT
+      └─ Slide 6: Insert → Video → 选择MP4
+```
+
+---
+
+祝你演讲成功!

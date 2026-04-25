@@ -1,0 +1,119 @@
+% !TEX root = ../thesis.tex
+
+\chapter{Related Work} \label{chp:relwork}
+
+\section{RL-Based Legged Locomotion}
+
+Reinforcement learning has become the dominant paradigm for quadruped locomotion
+over the past five years.
+Lee~et~al.~\cite{lee2020learning} demonstrated that a neural locomotion policy
+trained entirely in simulation can transfer to real quadrupeds and traverse
+challenging terrain including stairs, sloped ground, and loose gravel without
+additional fine-tuning, establishing simulation-to-reality transfer as a
+viable path.
+Kumar~et~al.~\cite{kumar2021rma} proposed Rapid Motor Adaptation (RMA), a
+two-module architecture in which a base policy trained with privileged
+simulation information is paired with a fast adaptation module that estimates
+environment parameters from recent proprioceptive history; the combined system
+recovers from perturbations in real time.
+Rudin~et~al.~\cite{rudin2022learning} showed that massively parallel simulation
+in Isaac Gym~\cite{makoviychuk2021isaac} reduces wall-clock training time to
+minutes, making iterative reward shaping practical.
+Margolis and Agrawal~\cite{margolis2022walk} introduced a command-conditioned
+locomotion policy (\textit{Walk These Ways}) capable of expressing diverse gaits
+including trot, bound, and pronk through a single unified policy conditioned on
+gait parameters such as frequency, phase offset, and foot-swing height.
+This distributional command representation is directly adopted by the RoboDuet
+framework~\cite{pan2024roboduet} and, by inheritance, by our B2+Z1 implementation.
+Cheng~et~al.~\cite{cheng2024parkour} pushed the boundary further with
+\emph{Extreme Parkour}, training a policy to jump, climb, and slide over
+obstacles using only proprioception and a single depth camera, demonstrating
+the expressive capacity of PPO-based policies on complex agility tasks.
+
+\section{Legged Loco-Manipulation}
+
+Equipping a legged robot with a manipulator arm introduces the
+\textit{loco-manipulation} challenge: the arm and legs must be coordinated to
+prevent the arm's inertial loads from destabilising locomotion, and the body
+posture must be adjusted to extend the arm's reachable workspace.
+
+Early work addressed this via whole-body model predictive control (MPC).
+Sleiman~et~al.~\cite{sleiman2021unified} presented a unified MPC framework for
+ANYmal~\cite{hutter2016anymal} with a fixed-base arm, enabling simultaneous
+walking and end-effector tracking.
+While model-based methods offer formal guarantees and high-frequency control,
+they demand accurate system models and struggle with unknown contacts or
+rapidly changing environments.
+
+Learning-based methods have begun to close this gap.
+Ma~et~al.~\cite{ma2022combining} combined a learned locomotion policy with a
+model-based arm controller, demonstrating that a decoupled architecture can
+achieve basic pick-and-place on a legged platform.
+Fu~et~al.~\cite{fu2023deep} trained a \emph{Deep Whole-Body Control} policy
+for a quadruped arm system using a teacher--student distillation scheme,
+achieving dynamic arm motions during locomotion but requiring separate training
+of a privileged teacher and a deployable student.
+Jeon~et~al.~\cite{jeon2023learning} applied whole-body RL to a quadrupedal
+robot to track arbitrary end-effector trajectories, using a single monolithic
+policy that outputs both leg and arm joint targets simultaneously.
+
+\section{RoboDuet: Cooperative Whole-Body Loco-Manipulation}
+
+The most directly relevant prior work is RoboDuet by Pan~et~al.~\cite{pan2024roboduet},
+which is the base framework reproduced and extended in this project.
+RoboDuet departs from monolithic policy designs by introducing \emph{two
+cooperating policies}: a \textbf{locomotion (dog) policy} responsible for body
+movement and a separate \textbf{arm policy} responsible for end-effector
+control.
+The key architectural innovation is the \emph{communication channel}: the arm
+policy outputs not only joint position targets for the six arm joints, but also
+a desired body-orientation command (pitch and roll) that is \emph{injected} into
+the observation vector of the locomotion policy, replacing the user-specified
+body-orientation command.
+This allows the arm policy to dynamically lean the body to expand the reachable
+workspace without any explicit coordination signal from the user.
+
+Both policies are trained with PPO using separate actor-critic networks and
+separate experience buffers, but they share the same simulation environment.
+Training proceeds in two stages: first the locomotion policy is pre-trained
+until stable gait is achieved, then the arm policy is introduced and both
+policies are fine-tuned jointly.
+
+The original RoboDuet experiments used the Unitree \textbf{Go1} quadruped
+(body mass $\approx\!12$\,kg) with the Unitree Z1 arm
+(6-DoF, payload $\approx\!2$\,kg).
+Our work adapts this framework to the Unitree \textbf{B2} quadruped
+(body mass $\approx\!52$\,kg), which requires non-trivial changes to the
+PD servo gains and training curriculum to compensate for the significantly
+different mass distribution and joint torque characteristics,
+as detailed in Chapter~\ref{chp:method}.
+
+\section{Summary and Positioning}
+
+Table~\ref{tab:relwork} summarises the key related works along the dimensions
+most relevant to this project.
+Our work occupies the intersection of RL-based locomotion, arm manipulation,
+and cooperative dual-policy architecture, on a platform (B2) that has not
+previously been demonstrated in a loco-manipulation setting.
+
+\begin{table}[h]
+\centering
+\caption{Comparison of related work. ``Loco-manip.'' denotes simultaneous
+locomotion and arm manipulation. ``Dual policy'' denotes a separate
+locomotion and arm policy with inter-policy communication.}
+\label{tab:relwork}
+\small
+\begin{tabular}{lcccc}
+\hline
+\textbf{Work} & \textbf{RL-based} & \textbf{Loco-manip.} & \textbf{Dual policy} & \textbf{Platform} \\
+\hline
+Lee et al.~\cite{lee2020learning}       & \checkmark & --         & --         & ANYmal \\
+Margolis \& Agrawal~\cite{margolis2022walk} & \checkmark & --         & --         & A1     \\
+Sleiman et al.~\cite{sleiman2021unified} & --         & \checkmark & --         & ANYmal \\
+Fu et al.~\cite{fu2023deep}              & \checkmark & \checkmark & --         & A1+arm \\
+Jeon et al.~\cite{jeon2023learning}      & \checkmark & \checkmark & --         & custom \\
+Pan et al.~\cite{pan2024roboduet}        & \checkmark & \checkmark & \checkmark & Go1+Z1 \\
+\textbf{Ours}                            & \checkmark & \checkmark & \checkmark & \textbf{B2+Z1} \\
+\hline
+\end{tabular}
+\end{table}

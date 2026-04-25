@@ -1,0 +1,97 @@
+% !TEX root = ../thesis.tex
+
+\chapter{Related Work}
+\label{chp:related}
+
+\section{Deep Reinforcement Learning for Legged Locomotion}
+
+Learning locomotion controllers for legged robots via deep RL has become
+the dominant paradigm.
+Lee~\emph{et al.}~\cite{lee2020learning} demonstrated that a recurrent
+neural network trained in simulation could learn robust quadrupedal walking
+over stairs and slippery surfaces, exploiting privileged observations during
+training that are unavailable at deployment.
+Kumar~\emph{et al.}~\cite{kumar2021rma} introduced the Rapid Motor
+Adaptation (RMA) framework, in which a teacher policy with access to
+privileged environment parameters trains a student adaptation module that
+infers latent terrain properties from a window of proprioceptive history.
+The two-stage distillation approach---teacher $\rightarrow$ student---is
+widely adopted and is inherited in RoboDuet for the arm policy.
+
+Margolis and Agrawal~\cite{margolis2023walk} proposed ``Walk These Ways''
+(WTW), a single gait-conditioned locomotion policy that covers a wide range
+of speeds and gait styles through a parameterised command space.
+WTW serves as the locomotion backbone in RoboDuet and, by extension, in this
+project.  Zero-velocity locomotion commands are used in our demonstrations to
+keep the quadruped stationary.
+
+\section{Robotic Arm Grasping and Manipulation}
+
+End-effector reaching and grasping have been studied extensively in
+fixed-base settings.
+Deep RL methods such as those of OpenAI~\cite{andrychowicz2020dexterous}
+and continuous control benchmarks~\cite{tassa2018dmcontrol} have shown that
+model-free policies can solve complex multi-joint manipulation tasks given
+sufficient simulation data.
+For goal-conditioned reaching, spherical ($(l, p, \psi)$) or Cartesian
+command representations can be used; RoboDuet adopts a spherical
+parameterisation that naturally encodes reach distance and elevation angle,
+which aligns well with the kinematic range of the Z1 arm.
+
+The Unitree Z1 arm features six revolute joints:
+\texttt{z1\_waist}, \texttt{z1\_shoulder}, \texttt{z1\_elbow},
+\texttt{z1\_wrist\_angle}, \texttt{z1\_forearm\_roll},
+\texttt{z1\_wrist\_rotate}, plus a passive gripper.
+Its workspace extends approximately 0.3--0.77\,m in reach and $\pm$81\,$^\circ$
+in elevation, enabling it to place the end-effector at a height of
+$0.38 + 0.77\sin(0.45\pi) \approx 0.93$\,m when fully extended upward.
+
+\section{Whole-Body Loco-Manipulation}
+
+Combining locomotion and manipulation on a single platform has attracted
+growing research attention.
+Fu~\emph{et al.}~\cite{fu2023deepwhole} addressed whole-body control for a
+wheeled mobile manipulator, learning a unified policy via RL that coordinates
+all body joints.
+Cheng~\emph{et al.}~\cite{cheng2023legs} demonstrated that quadruped leg
+movements can themselves be used as a form of manipulation, using contact
+forces at the feet to push objects.
+Zimmermann~\emph{et al.}~\cite{zimmermann2021go} mounted an arm on a Go1 and
+used classical trajectory optimisation to plan arm motions while the legs
+provided stability.
+These works highlight a recurring design choice: \emph{centralised} control
+(one policy outputs all joint commands) vs.\ \emph{decentralised} control
+(separate locomotion and manipulation policies that interact implicitly).
+
+\section{The RoboDuet Framework}
+
+Pan~\emph{et al.}~\cite{pan2024roboduet} proposed RoboDuet, the decentralised
+two-policy framework that forms the basis of this project.
+RoboDuet trains two cooperative policies simultaneously: a dog policy
+$\pi_\text{dog}$ controlling the 12 leg joints, and an arm policy
+$\pi_\text{arm}$ controlling the 6 arm joints.
+Neither policy has explicit access to the other's action output; they
+interact only through the shared body dynamics.
+Key features include:
+\begin{itemize}
+  \item \textbf{Spherical arm command space} $(l, p, \psi, \alpha, \beta,
+        \gamma)$: reach length, pitch, yaw, and optional end-effector roll,
+        pitch, yaw for full 6D pose tracking.
+  \item \textbf{Adaptation module}: a learned mapping from proprioceptive
+        observation history to a low-dimensional latent vector that
+        approximates privileged information, enabling sim-to-real transfer
+        without explicit environment identification.
+  \item \textbf{Zero-shot cross-morphology transfer}: the authors report
+        successful transfer from Go1+Z1 to a different quadruped (B2+Z1)
+        without retraining, which motivates the present adaptation work.
+  \item \textbf{Reward decomposition}: the dog reward includes locomotion
+        tracking terms ($r_\text{lin}$, $r_\text{ang}$) and whole-body
+        terms ($r_\text{orient}$, $r_\text{hip}$); the arm reward is
+        dominated by the manipulation command tracking term.
+\end{itemize}
+
+The original paper demonstrates 23\% improvement in success rate over a
+single-policy baseline on challenging loco-manipulation tasks.
+Our work validates RoboDuet's transfer claim on the heavier B2Z1 platform,
+develops a reproducible demonstration harness, and documents the engineering
+decisions required for successful adaptation.

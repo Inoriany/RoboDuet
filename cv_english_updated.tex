@@ -1,0 +1,141 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{geometry}
+\geometry{top=0.5in,bottom=0.5in,left=0.65in,right=0.65in}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+\setmainfont{Latin Modern Roman}
+
+\titleformat{\section}{\large\bfseries}{}{0em}{}[\vspace{-6pt}\rule{\linewidth}{0.5pt}]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+\setlist[itemize]{leftmargin=1.5em, nosep, topsep=1pt, itemsep=1pt, parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagestyle{empty}
+
+\newcommand{\entry}[2]{%
+  \noindent\textbf{#1}\hfill#2\par%
+}
+\newcommand{\subline}[1]{%
+  \noindent\textit{#1}\par%
+}
+
+\begin{document}
+
+%==================== Header ====================
+\begin{center}
+  {\LARGE\bfseries Zhao Yuxiao}\\[4pt]
+  \href{mailto:zwb8@163.com}{zwb8@163.com} \quad\textbar\quad +86\,133\,1698\,8235
+  \quad\textbar\quad
+  \href{https://github.com/BoatHermit}{github.com/BoatHermit}
+\end{center}
+
+\vspace{2pt}
+
+%==================== Education ====================
+\section*{Education}
+
+\entry{The Chinese University of Hong Kong --- M.Sc.\ Artificial Intelligence}{Sep 2025 -- Present}
+\vspace{1pt}
+
+\entry{The University of Manchester --- B.Sc.(Hons) Computer Science and Mathematics}{Sep 2022 -- Jun 2025}
+\begin{itemize}
+  \item Stellify Award for Excellence (top 5\% of graduates) \hfill Jun 2025
+  \item GreatUniHack 2023 Team Runner-Up \hfill Nov 2023
+\end{itemize}
+
+%==================== Research Experience ====================
+\section*{Research Experience}
+
+\entry{Adaptive Federated Normalization for Feature-Shifted Clients}{Sep 2025 -- Dec 2025}
+\subline{Advisor: Prof.\ LAU Wing Cheong, The Chinese University of Hong Kong}
+\begin{itemize}
+  \item Proposed the AFN algorithm to tackle client feature-distribution shift in federated learning by introducing a tunable interpolation parameter $\alpha$ between local and global BN statistics with negligible communication overhead.
+  \item Achieved 98.76\% average accuracy on a 5-client MNIST benchmark, outperforming FedAvg (97.84\%) and FedBN (98.57\%); significance verified by $t$-test ($p < 0.05$). Preprint published as first author (2025).
+\end{itemize}
+
+\vspace{3pt}
+\entry{Diffusion Model-Based Image Forgery Localisation}{Jul 2024 -- Aug 2024}
+\subline{Advisor: Prof.\ Ni Jiangqun, Sun Yat-sen University}
+\begin{itemize}
+  \item Built a U-Net in PyTorch with Gaussian noise initialisation for pixel-level image forgery detection, optimising denoising via GPU tensor operations.
+\end{itemize}
+
+%==================== Project Experience ====================
+\section*{Project Experience}
+
+\entry{VLA-LocoMAN: End-to-End Controller for Quadruped Loco-Manipulation}{Nov 2025 -- Present}
+\begin{itemize}
+  \item Designed a hierarchical RL framework (PPO/SAC) with reward shaping and curriculum learning to co-optimise locomotion and manipulation, enabling stable grasping during navigation.
+  \item Developed a sim-to-real transfer pipeline minimising performance degradation on physical hardware.
+  \item Integrated a vision-language-action interface for natural-language-conditioned continuous robot control.
+\end{itemize}
+
+\vspace{3pt}
+\entry{LuminaAI: Intelligent Email Classification \& AI-Assisted Inbox}{Sep 2025 -- Dec 2025}
+\begin{itemize}
+  \item Built an end-to-end system integrating Gmail API, fine-tuned DistilBERT (99.67\% accuracy / macro F1 on 12k emails), and an LLM two-stage action engine for summarisation, triage, and reply suggestions.
+  \item Implemented hybrid retrieval-based Q\&A with cited answers; open-sourced with Docker deployment --- \href{https://github.com/BoatHermit/email_ai_agent}{github.com/BoatHermit/email\_ai\_agent}.
+\end{itemize}
+
+\vspace{3pt}
+\entry{Generative AI Models: LLM Alignment \& Generation Optimisation}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Implemented LoRA fine-tuning, Instruction Tuning, and RLHF/DPO alignment on Qwen2.5-0.5B for SFT translation; benchmarked Chain-of-Thought, Self-Consistency, and Prompt Engineering for reasoning; analysed hallucination causes and mitigation.
+\end{itemize}
+
+\vspace{3pt}
+\entry{RL-Based Text-to-Image Generation Optimisation}{Jan 2026 -- Jun 2026}
+\begin{itemize}
+  \item Built an end-to-end GRPO (Group Relative Policy Optimisation) fine-tuning pipeline for Janus-Pro-1B, an autoregressive visual-token generator, with LoRA; designed a composite reward model (CLIP + Qwen2.5-VL-32B API) scoring objects, counts, attributes, and spatial relations.
+  \item Engineered a two-phase training loop (no-grad rollout + gradient re-scoring) with classifier-free guidance; resolved fp16 overflow and OOM issues to enable single-GPU (T4/L4) training.
+  \item Achieved \textbf{+3.4 on TIFA} and \textbf{+6.2 on GenAI-Bench} over baseline; wrong-count errors halved across 4 benchmarks --- \href{https://github.com/Inoriany/T2I-RL-Project}{github.com/Inoriany/T2I-RL-Project}.
+\end{itemize}
+
+\vspace{3pt}
+\entry{AI Large Model Engineering Practice}{Sep 2025 -- Dec 2025}
+\begin{itemize}
+  \item Delivered a complete AI pipeline from matrix/convolution implementations to CNN and Attention architectures, LLM deployment (CUDA/Triton), and a high-accuracy NLP chatbot.
+\end{itemize}
+
+\vspace{3pt}
+\entry{Multi-Sensor Fire Detection \& Autonomous Navigation Robot}{Sep 2024 -- Jun 2025}
+\begin{itemize}
+  \item Developed an autonomous fire-detection robot in ROS Noetic, fusing YOLOv5, RGB/thermal imaging, LiDAR, and SLAM (GMapping) for real-time scene understanding and hazard-aware navigation.
+  \item Achieved 93\% flame detection F1-score and 92\% loop-closure accuracy in Gazebo; optimised vision-to-navigation latency with dynamic costmaps and A*/Dijkstra path planning.
+\end{itemize}
+
+%==================== Internship ====================
+\section*{Internship Experience}
+
+\entry{ByteDance --- Recommendation Algorithm Data Analysis Intern}{Jun 2023 -- Jul 2023}
+\begin{itemize}
+  \item Built multi-dimensional dashboards (Pandas, NumPy, Matplotlib) to analyse Douyin Mall user behaviour, profile features, and sales trends; outputs incorporated into the annual report.
+  \item Designed A/B tests and applied $t$-tests, chi-squared tests, and multiple linear regression to quantify the impact of recommendation changes on CTR, CVR, and GMV; findings led to a \textasciitilde5\% uplift in next-day retention.
+\end{itemize}
+
+%==================== Leadership & Activities ====================
+\section*{Leadership \& Activities}
+
+\begin{itemize}
+  \item \textbf{CUHK AI Programme Representative} (Sep 2025 -- Present): organised workshops, drafted academic proposals, and launched the CUHK AI Logo Design Competition.
+  \item \textbf{UoM CS \& Maths Programme Representative} (Sep 2023 -- Jun 2025): advocated for 750+ students at faculty meetings, proposed grading reforms, and published weekly newsletters.
+  \item \textbf{GreatUniHack 2023} (Nov 2023): built a Python AI web app for deforestation trend detection using CNN and cloud deployment on Google Colab --- team runner-up.
+  \item \textbf{Stellify Grand Ethical Challenge} (Jun 2025): received award for leadership, social responsibility, and extensive community service and student mentoring.
+\end{itemize}
+
+%==================== Technical Skills ====================
+\section*{Technical Skills}
+
+\begin{itemize}
+  \item \textbf{Languages:} Python, Java, R, HTML/CSS
+  \item \textbf{ML / DL:} PyTorch, TensorFlow, scikit-learn, HuggingFace Transformers, Pandas, NumPy, Matplotlib
+  \item \textbf{Engineering:} Git, Docker, CUDA/Triton, ROS Noetic, Gazebo, Jupyter Notebook, Google Colab
+\end{itemize}
+
+\end{document}

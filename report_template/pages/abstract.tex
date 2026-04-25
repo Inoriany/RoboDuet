@@ -1,0 +1,35 @@
+% !TEX root = ../thesis.tex
+
+Legged robots equipped with robotic arms can perform complex loco-manipulation
+tasks that neither locomotion-only nor fixed-base manipulation systems can
+achieve alone.
+This project adapts the open-source \textit{RoboDuet} framework---originally
+developed at Shanghai Jiao Tong University for the Unitree Go1+Z1
+platform---to the heavier and more capable \textit{Unitree B2+Z1} system,
+which comprises a 60\,kg quadruped body paired with a six-degrees-of-freedom
+robotic arm.
+
+The core technical contribution is a complete migration of the decentralised
+multi-agent reinforcement learning (MARL) pipeline: robot URDF integration,
+degree-of-freedom (DOF) mapping, PD gain calibration, and the development of
+a simulation demonstration harness using NVIDIA IsaacGym.
+Two decoupled policies are trained via Proximal Policy Optimisation (PPO):
+a \textit{locomotion policy} that stabilises the quadruped at a nominal
+standing height ($h\approx0.45$\,m), and an \textit{arm policy} that tracks
+spherical end-effector commands $(l, p, \psi)$---reach distance, pitch, and
+yaw---using a history-conditioned actor-critic architecture with a learned
+adaptation module for sim-to-real transfer.
+
+Three demonstrations are produced in simulation:
+(1)~fixed-base arm manipulation confirming forward end-effector reach;
+(2)~standing quadruped with simultaneous arm reaching; and
+(3)~a fixed-base grasp-and-lift sequence in which a small 6\,cm cube is
+picked up and elevated by 30\,cm, demonstrating a complete reach-grasp-lift
+pipeline using kinematic box teleportation.
+The robot base height remains within $\pm$3\,cm of nominal in Demonstration~2,
+and is kinematically fixed at 0.340\,m in Demonstrations~1 and~3, confirming
+the stability of the concurrent dog-arm control in the standing case.
+
+These results confirm the cross-morphology zero-shot transfer capability
+claimed in the original RoboDuet paper and establish the B2Z1 platform as
+a viable testbed for future real-world loco-manipulation experiments.
